@@ -14,7 +14,23 @@ This plugin can be installed like [any other modern Vim plugin](https://vi.stack
 Plug 'mkropat/vim-ezguifont'
 ```
 
-## Setting a Font
+## Adjusting Font Size
+
+ezguifont.vim provides two commands to adjust the rendered font size:
+
+- `:IncreaseFontSize`
+- `:DecreaseFontSize`
+
+In my `.vimrc` I map these to <kbd>Ctrl +</kbd> and <kbd>Ctrl -</kbd> respectively:
+
+```vim
+nnoremap <C-+> :IncreaseFontSize<CR>
+nnoremap <C--> :DecreaseFontSize<CR>
+```
+
+__Note__: these mappings do not work in every version of Vim, due to esoteric key code handling limitations in some implementations. For that reason, ezguifont.vim does not automatically set any key mappings out-of-the-box, since it is not possible to use the obvious choice of mappings in a way that will work everywhere. Perhaps ezguifont.vim will be smarter about automatically setting key mappings in the future.
+
+## Setting a Custom Font
 
 For first time configuration, I recommend starting with:
 
@@ -49,22 +65,6 @@ Changes to `g:ezguifont` only take affect at Vim startup. If you need to set a d
 ```vim
 :SetFont IBM Plex Mono 11
 ```
-
-## Adjusting Font Size
-
-ezguifont.vim provides two commands to adjust the rendered font size:
-
-- `:IncreaseFontSize`
-- `:DecreaseFontSize`
-
-In my `.vimrc` I map these to <kbd>Ctrl +</kbd> and <kbd>Ctrl -</kbd> respectively:
-
-```vim
-nnoremap <C-+> :IncreaseFontSize<CR>
-nnoremap <C--> :DecreaseFontSize<CR>
-```
-
-__Note__: these mappings do not work in every version of Vim, due to esoteric key code handling limitations in some implementations. For that reason, ezguifont.vim does not automatically set any key mappings out-of-the-box, since it is not possible to use the obvious choice of mappings in a way that will work everywhere. Perhaps ezguifont.vim will be smarter about automatically setting key mappings in the future.
 
 ## Limitations
 
