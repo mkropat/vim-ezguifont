@@ -65,3 +65,11 @@ nnoremap <C--> :DecreaseFontSize<CR>
 ```
 
 __Note__: these mappings do not work in every version of Vim, due to esoteric key code handling limitations in some implementations. For that reason, ezguifont.vim does not automatically set any key mappings out-of-the-box, since it is not possible to use the obvious choice of mappings in a way that will work everywhere. Perhaps ezguifont.vim will be smarter about automatically setting key mappings in the future.
+
+## Limitations
+
+### Multiple Fonts / Fallback Fonts
+
+ezguifont.vim does not go out of its way to support multiple fonts or fallback fonts. On some Vim GUI implementations you can pass multiple, comma-separated fonts to `guifont`, and if the first font isn't available Vim will try the second one and so on until an available font is found. Comma separated font lists are honored by `:SetFont` and passed along to `guifont` dutifully. However, not all Vim GUIs support comma-separated `guifont` values the way you would expect, either because fallback fonts are ignored or because a missing font throws an error (even if there is a fallback available). So YMMV, especially if you are trying to share the same `:SetFont` config across multiple platforms.
+
+What I do is make a point to install the same custom font on every platform I use so that specifying a fallback font isn't necessary.
