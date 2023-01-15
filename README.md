@@ -21,10 +21,11 @@ ezguifont.vim provides two commands to adjust the rendered font size:
 - `:IncreaseFontSize`
 - `:DecreaseFontSize`
 
-In my `.vimrc` I map these to <kbd>Ctrl +</kbd> and <kbd>Ctrl -</kbd> respectively:
+In my `.vimrc` I map these to <kbd>Ctrl +</kbd> (or without shift, <kbd>Ctrl =</kbd>) and <kbd>Ctrl -</kbd> respectively:
 
 ```vim
 nnoremap <C-+> :IncreaseFontSize<CR>
+nnoremap <C-=> :IncreaseFontSize<CR>
 nnoremap <C--> :DecreaseFontSize<CR>
 ```
 
