@@ -21,6 +21,8 @@ ezguifont.vim provides two commands to adjust the rendered font size:
 - `:IncreaseFont`
 - `:DecreaseFont`
 
+__Note__: these commands work best if you have an explicit font set. See the next section for how to set a font.
+
 In my `.vimrc` I map these to <kbd>Ctrl +</kbd> (or without shift, <kbd>Ctrl =</kbd>) and <kbd>Ctrl -</kbd> respectively:
 
 ```vim
@@ -68,6 +70,20 @@ Changes to `g:ezguifont` only take affect at Vim startup. If you need to set a d
 ```
 
 ## Limitations
+
+### Adjusting the Default (Empty) Font Size
+
+By default, Vim sets the font to:
+
+```
+guifont=
+```
+
+Or in other words the empty string. This gets interpreted by Vim as using some default font.
+
+On some platforms you can adjust the default font size by specifying a size (even if you omit the font name), for example `set guifont=16` or `set guifont=:h16`. On platforms that support this, `:IncreaseFont` and `:DecreaseFont` work as expected. On platforms that don't support this, however, `:IncreaseFont`/`:DecreaseFont` don't do anything when you are using the empty font.
+
+ezguifont.vim works best if you set an explicit font.
 
 ### Multiple Fonts / Fallback Fonts
 
