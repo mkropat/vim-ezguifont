@@ -58,11 +58,11 @@ function! ezguifont#SetFont(font_spec)
   endif
 endfunction
 
-function! ezguifont#DecreaseFontSize()
+function! ezguifont#DecreaseFont()
   call s:adjust_font_size(-1 * g:ezguifont_step_size)
 endfunction
 
-function! ezguifont#IncreaseFontSize()
+function! ezguifont#IncreaseFont()
   call s:adjust_font_size(g:ezguifont_step_size)
 endfunction
 

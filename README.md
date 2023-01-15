@@ -18,15 +18,15 @@ Plug 'mkropat/vim-ezguifont'
 
 ezguifont.vim provides two commands to adjust the rendered font size:
 
-- `:IncreaseFontSize`
-- `:DecreaseFontSize`
+- `:IncreaseFont`
+- `:DecreaseFont`
 
 In my `.vimrc` I map these to <kbd>Ctrl +</kbd> (or without shift, <kbd>Ctrl =</kbd>) and <kbd>Ctrl -</kbd> respectively:
 
 ```vim
-nnoremap <C-+> :IncreaseFontSize<CR>
-nnoremap <C-=> :IncreaseFontSize<CR>
-nnoremap <C--> :DecreaseFontSize<CR>
+nnoremap <C-+> :IncreaseFont<CR>
+nnoremap <C-=> :IncreaseFont<CR>
+nnoremap <C--> :DecreaseFont<CR>
 ```
 
 __Note__: these mappings do not work in every version of Vim, due to esoteric key code handling limitations in some implementations. For that reason, ezguifont.vim does not automatically set any key mappings out-of-the-box, since it is not possible to use the obvious choice of mappings in a way that will work everywhere. Perhaps ezguifont.vim will be smarter about automatically setting key mappings in the future.
