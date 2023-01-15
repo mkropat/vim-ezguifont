@@ -6,6 +6,10 @@ if !exists('g:ezguifont_step_size')
   let g:ezguifont_step_size = 1
 endif
 
+if !exists('g:ezguifont_default_font_size')
+  let g:ezguifont_default_font_size = 11
+endif
+
 if exists('s:loaded')
   finish
 endif

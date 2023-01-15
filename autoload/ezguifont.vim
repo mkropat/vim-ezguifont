@@ -22,7 +22,7 @@ function! ezguifont#SetFont(font_spec)
     endif
 
     if fonts[i]['size'] == 0 " Set a default font size if not specified
-      let fonts[i]['size'] = 12
+      let fonts[i]['size'] = g:ezguifont_default_font_size
     endif
 
     if s:get_size_from_options(fonts[i]['options']) == 0                    " Check if size exists in options
@@ -71,13 +71,35 @@ function! s:adjust_font_size(step)
 
   let i = 0
   while i < len(fonts)
-    let options = split(fonts[i], ':', 1)
+    if has('gui_gtk')
+      let match_pattern = ''
+      if fonts[i] =~ '\d\+\.\d*\s*$'  " Float
+        let match_pattern = '\d\+\.\d*\s*$'
+        let old_size = str2float(matchstr(fonts[i], match_pattern))
+      elseif fonts[i] =~ '\d\+\s*$'   " Integer
+        let match_pattern = '\d\+\s*$'
+        let old_size = str2nr(matchstr(fonts[i], match_pattern))
+      else                            " No size, pick a default
+        let match_pattern = '$'
+        let old_size = g:ezguifont_default_font_size
+      endif
 
-    if len(options) > 1 " Mac/Nvim/Windows style font spec
-      let j = 1 " Skip the font name
+      if !empty(match_pattern)
+        let new_size = old_size + a:step
+        if new_size > 0
+          let fonts[i] = substitute(fonts[i], match_pattern, s:format_size(new_size), '')
+        endif
+      endif
+
+    else " Mac/Nvim/Windows
+      let options = split(fonts[i], ':', 1)
+
+      let j = 0
+      let matched = 0
       while j < len(options)
         let old_size = s:parse_size_option(options[j])
         if old_size != 0 " Check if is a size option or some other option
+          let matched = 1
           let new_size = old_size + a:step
           if new_size > 0
             let options[j] = 'h' . s:format_size(new_size)
@@ -87,24 +109,14 @@ function! s:adjust_font_size(step)
         let j = j + 1
       endwhile
 
+      if !matched
+        " Note: fallback doesn't work on all Vim GUIs/platforms if there isn't
+        " a font specified
+        let new_size = g:ezguifont_default_font_size + a:step
+        call add(options, 'h' . s:format_size(new_size))
+      endif
+
       let fonts[i] = join(options, ':')
-
-    else " GTK style font spec
-      let match_pattern = ''
-      if fonts[i] =~ '\d\+\.\d*\s*$'  " Float
-        let match_pattern = '\d\+\.\d*\s*$'
-        let old_size = str2float(matchstr(fonts[i], match_pattern))
-      elseif fonts[i] =~ '\d\+\s*$'   " Integer
-        let match_pattern = '\d\+\s*$'
-        let old_size = str2nr(matchstr(fonts[i], match_pattern))
-      endif
-
-      if !empty(match_pattern)
-        let new_size = old_size + a:step
-        if new_size > 0
-          let fonts[i] = substitute(fonts[i], match_pattern, s:format_size(new_size), '')
-        endif
-      endif
     endif
 
     let i = i + 1
