@@ -42,7 +42,7 @@ function! ezguifont#SetFont(font_spec)
   elseif exists(':VimRSetFontAndSize')
     let name = fonts[0]['name']
     let size = fonts[0]['size']
-    execute 'VimRSetFontAndSize' name size
+    execute 'VimRSetFontAndSize "' . name . '",' . size
 
   else " Mac/Nvim/Windows
     let formatted = []
