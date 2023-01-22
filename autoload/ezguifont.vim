@@ -66,6 +66,10 @@ function! ezguifont#IncreaseFont()
   call s:adjust_font_size(g:ezguifont_step_size)
 endfunction
 
+function! ezguifont#ResetFontSize()
+  call s:set_font_size(g:ezguifont_default_font_size)
+endfunction
+
 function! s:adjust_font_size(step)
   let fonts = split(&guifont, ',', 1)
 
@@ -114,6 +118,55 @@ function! s:adjust_font_size(step)
         " a font specified
         let new_size = g:ezguifont_default_font_size + a:step
         call add(options, 'h' . s:format_size(new_size))
+      endif
+
+      let fonts[i] = join(options, ':')
+    endif
+
+    let i = i + 1
+  endwhile
+
+  let &guifont = join(fonts, ',')
+endfunction
+
+function! s:set_font_size(new_size)
+  let fonts = split(&guifont, ',', 1)
+
+  let i = 0
+  while i < len(fonts)
+    if has('gui_gtk')
+      let match_pattern = ''
+      if fonts[i] =~ '\d\+\.\d*\s*$'  " Float
+        let match_pattern = '\d\+\.\d*\s*$'
+      elseif fonts[i] =~ '\d\+\s*$'   " Integer
+        let match_pattern = '\d\+\s*$'
+      else                            " No size, pick a default
+        let match_pattern = '$'
+      endif
+
+      if !empty(match_pattern)
+        let fonts[i] = substitute(fonts[i], match_pattern, s:format_size(a:new_size), '')
+      endif
+
+    else " Mac/Nvim/Windows
+      let options = split(fonts[i], ':', 1)
+
+      let j = 0
+      let matched = 0
+      while j < len(options)
+        let old_size = s:parse_size_option(options[j])
+        if old_size != 0 " Check if is a size option or some other option
+          let matched = 1
+          let options[j] = 'h' . s:format_size(a:new_size)
+        endif
+
+        let j = j + 1
+      endwhile
+
+      if !matched
+        " Note: fallback doesn't work on all Vim GUIs/platforms if there isn't
+        " a font specified
+        call add(options, 'h' . s:format_size(a:new_size))
       endif
 
       let fonts[i] = join(options, ':')
